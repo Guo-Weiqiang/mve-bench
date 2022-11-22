@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 import tempfile
 
-import paramiko
+# import paramiko
 from util import SshClient
 
 with open("config.json") as configFile:
@@ -128,10 +128,10 @@ def installgw(gateway):
 
 
 if __name__ == "__main__":
-    print("Deploying {} MVE gateways ...".format(len(gatewayList)))
-    for gateway in gatewayList:
-        print("Deploying Gateway: " + gateway)
-        installgw(gateway)
+    # print("Deploying {} MVE gateways ...".format(len(gatewayList)))
+    # for gateway in gatewayList:
+    #     print("Deploying Gateway: " + gateway)
+    #     installgw(gateway)
 
     print("Deploying {} MVE servers ...".format(len(serverList)))
     startTime = datetime.utcnow()

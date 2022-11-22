@@ -27,7 +27,7 @@ opencraft:
     filterBCM: true
     function: ServerlessPopulationHandler
     provider: azure
-    endpoint: 'https://opencraft-az.azurewebsites.net/api/populateazure'
+    endpoint: 'https://opencraft-az.azurewebsites.net/api/PopulateAzure'
   storage:
     provider: default
     cacheregionpolicy: none
@@ -35,7 +35,7 @@ opencraft:
     endpoint: ''
   player-operation:
     provider: default
-    endpoint: 'https://opencraft-az.azurewebsites.net/api/playeroperation'
+    endpoint: 'https://opencraft-az.azurewebsites.net/api/PlayerOperation?'
   overload-breaker: false
   kludge:
     cache-chunks: false

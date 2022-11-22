@@ -7,7 +7,7 @@ from time import sleep
 import os
 
 # Connect to benchmark server
-with open("benchmarkc.json") as configFile:
+with open("benchmark.json") as configFile:
     config = json.load(configFile)
 
 host = config["benchmarkserver"]["host"]

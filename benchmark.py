@@ -48,12 +48,12 @@ def startclients():
         ssh.command("cd {}; screen -S mves -dm python3 mves.py".format(mvepath))
     sleep(config['benchmark']['delay'])
 
-    for host in gatewayList:
-        client = gatewayList[host]
-        ssh = SshClient(host, client['port'], client['username'], client['password'])
-        gatewayList[host]["ssh"] = ssh
-        print("Starting mve gateway:", host)
-        ssh.command("cd {}; screen -S mvegw -dm python3 mvegw.py".format(mvepath))
+    # for host in gatewayList:
+    #     client = gatewayList[host]
+    #     ssh = SshClient(host, client['port'], client['username'], client['password'])
+    #     gatewayList[host]["ssh"] = ssh
+    #     print("Starting mve gateway:", host)
+    #     ssh.command("cd {}; screen -S mvegw -dm python3 mvegw.py".format(mvepath))
 
     # start mve clients
     i = 0
@@ -167,8 +167,8 @@ def clientthread(c):
 if __name__ == "__main__":
     os.mkdir("{}/{}".format(resultpath, startTimeStr))
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # s.bind((host, port))
-    s.bind(("0.0.0.0", port))
+    s.bind((host, port))
+    # s.bind(("0.0.0.0", port))
     s.listen(100)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
     s.settimeout(timeout)
@@ -193,16 +193,16 @@ if __name__ == "__main__":
         # end benchmark server if there is no pending iteration
         else:
             # collect aggregated Function metrics after benchmark ends
-            for func in functionList:
-                responseData = postMetric(functionList, func)
-                with open('{}/function-{}-metrics'.format(currResultpath, func), 'w') as f:
-                    json.dump(responseData, f)
+            # for func in functionList:
+            #     responseData = postMetric(functionList, func)
+            #     with open('{}/function-{}-metrics'.format(currResultpath, func), 'w') as f:
+            #         json.dump(responseData, f)
             print("Benchmark Complete. Elapsed Time:", (datetime.utcnow() - startTime).total_seconds())
             break
 
         try:
             c, addr = s.accept()
-            # print('Connected to', addr)
+            print('Connected to', addr)
             start_new_thread(clientthread, (c,))
         except socket.timeout:
             # Remove active mve server without clients
@@ -212,16 +212,17 @@ if __name__ == "__main__":
 
             # if no active mve c/s
             if len(csmap) == 0:
-                for func in functionList:
-                    print("Collecting results from function", func)
-                    # retrieve Function query
-                    for table in ["requests", "performanceCounters"]:
-                        responseData = insightQuery(functionList, func, 'PT1H', iTime.strftime("%Y-%m-%d %H:%M:%S"),
-                                                    table=table)
-                        with open('{}/function-{}-{}-{}'.format(currResultpath, func, table,
-                                                                iTime.strftime("%Y%m%d%H%M%S")), 'w') as f:
-                            json.dump(responseData["tables"][0], f)
-                print("Iteration {} Complete, results are stored in: {}".format(i, currResultpath))
+                # for func in functionList:
+                #     print("Collecting results from function", func)
+                #     # retrieve Function query
+                #     for table in ["requests", "performanceCounters"]:
+                #         responseData = insightQuery(functionList, func, 'PT1H', iTime.strftime("%Y-%m-%d %H:%M:%S"),
+                #                                     table=table)
+                #         # print(responseData)
+                #         with open('{}/function-{}-{}-{}'.format(currResultpath, func, table,
+                #                                                 iTime.strftime("%Y%m%d%H%M%S")), 'w') as f:
+                #             json.dump(responseData["tables"][0], f)
+                # print("Iteration {} Complete, results are stored in: {}".format(i, currResultpath))
                 # start next iteration
                 i += 1
                 nextI = True

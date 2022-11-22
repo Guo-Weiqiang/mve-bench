@@ -8,7 +8,7 @@ import os
 import select
 
 # Connect to benchmark server
-with open("benchmarks.json") as configFile:
+with open("benchmark.json") as configFile:
     config = json.load(configFile)
 
 host = config["benchmarkserver"]["host"]
